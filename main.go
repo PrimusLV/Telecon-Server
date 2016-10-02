@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"flag"
-	"fmt"
 	"net"
 	"os"
 	"telecon/logger"
@@ -30,7 +29,6 @@ func handleConn(chatServer *ChatServer, conn net.Conn) {
 			n, err := conn.Read(current)
 			if err != nil {
 				if err.Error() == "EOF" {
-					fmt.Println("Client disconnected")
 					user.Disconnect("Disconnected")
 					break
 				}

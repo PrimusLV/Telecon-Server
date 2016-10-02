@@ -37,7 +37,9 @@ func (cs *ChatServer) handlePacket(user *User, packet network.Packet) {
 		cs.Join <- *user
 		go user.SendPacket(packet)
 	case network.PK_DISCONNECT:
-
+		user.Disconnect(utils.BytesToStr(packet.Data[0]))
+	case network.PK_MESSAGE:
+		cs.BroadcastMessage(fmt.Sprintf("<%s> %s", user.GetName(), utils.BytesToStr(packet.Data[0])))
 	default:
 		log.Error("Unhandled packet! Dumping...")
 		packet.Dump()
